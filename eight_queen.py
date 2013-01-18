@@ -70,14 +70,16 @@ def get_column(column, board):
     return column_to_validate 
 
 def get_column_indexes(column, board):
+    """
+    return list of xy while:
+    - x depends on row and
+    - y depends on column
+    """
     board = board.replace(' ', '')
-    column_indexes = {
+    all_y = {
         'a': 1, 'b': 2, 'c': 3, 'd': 4,
         'e': 5, 'f': 6, 'g': 7, 'h': 8,
     }
-    column_index = column_indexes[column]
-    index_starts = board.find('8')
-    index_ends = len(board)
-    row_length = 10
-    tile_indexes = [ column_index + i for i in range(index_starts, index_ends, row_length) ]
-    return tile_indexes 
+    y = all_y[column]
+    all_x = range(1, 9) 
+    return [ int(str(x) + str(y)) for x in all_x ]
