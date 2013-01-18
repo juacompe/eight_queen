@@ -35,7 +35,23 @@ class TestDisplay(TestCase):
         """
         assertLikes(self, expected, result)
 
+    def test_get_board_with_3_queens_at_a1_b3_and_c5(self):
+        board = ['a1', 'b3', 'c5'] 
+        result = get_board(board)
+        expected = u"""
+          a b c d e f g h
+        8 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+        7 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+        6 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+        5 ◼ ◻ ♛ ◻ ◼ ◻ ◼ ◻
+        4 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+        3 ◼ ♛ ◼ ◻ ◼ ◻ ◼ ◻
+        2 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+        1 ♛ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+        """
+        assertLikes(self, expected, result)
 
+        
 class TestPutQueen(TestCase):
     def test_put_queen_at_a1(self):
         result = put_queen(empty_board, 'a1')
