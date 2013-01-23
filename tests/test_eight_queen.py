@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from eight_queen import get_board, put_queen, validate_board, get_column, get_column_indexes, solve, is_queen
+from eight_queen import get_board, put_queen, validate_board, get_column, get_column_indexes, solve, is_queen, count_queen, OutOfBoardException
 from unittest import TestCase
 
 empty_board = u"""
@@ -57,6 +57,13 @@ class TestPutQueen(TestCase):
     def test_put_queen_at_a1(self):
         result = put_queen(empty_board, 'a1')
         assertLikes(self, board_with_queen_at_a1, result)
+
+    def test_put_queen_out_of_the_bound_at_row_9(self):
+        self.assertRaises(OutOfBoardException, put_queen, empty_board, 'a9')
+        
+    def test_put_queen_out_of_the_bound_at_column_i(self):
+        self.assertRaises(OutOfBoardException, put_queen, empty_board, 'i1')
+        
 
 class TestValidateBoard(TestCase):
     def test_empty_board_should_valid(self):
@@ -178,11 +185,13 @@ class TestGetColumnIndexes(TestCase):
   
 
 class TestSolvePuzzle(TestCase):
-    def test_solve_puzzle_starting_at_a1(self):
+    def test_solve_puzzle_starting_at_bottom_left_corner(self):
         starting_point = 'a1'
         board = solve(starting_point) 
         self.assertTrue(is_queen(board, 'a1'))
         self.assertTrue(validate_board(board))
+        self.assertEquals(8, count_queen(board))
+
 
 class TestIsQueen(TestCase):
     def test_a1_is_queen(self):
@@ -206,6 +215,10 @@ class TestIsQueen(TestCase):
         result = is_queen(board_with_queen_at_a1, 'h1') 
         self.assertFalse(result)
 
+class TestCountQueen(TestCase):
+    def test_count_queen_on_empty_board(self):
+        number_of_queens = count_queen(empty_board)
+        self.assertEquals(0, number_of_queens)
 
 def assertLikes(test, expected, result):
     """

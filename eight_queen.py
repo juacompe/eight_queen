@@ -1,5 +1,7 @@
 #-*- coding: utf-8 -*-
 
+class OutOfBoardException(Exception): pass
+
 QUEEN = u'♛'
 
 def get_board(queen_positions):
@@ -30,6 +32,14 @@ def get_queen_index(board, position):
         'h': 16,
     }
     column, row = to_coordinate_pair(position)
+    if int(row) > 8:
+        print 'Row %s is not expected' % row
+        raise OutOfBoardException()
+
+    if not column in column_indexes.keys():
+        print 'Column %s is not expected' % column 
+        raise OutOfBoardException()
+        
     index_at_beginning_of_row = board.find(row)
     column_index = column_indexes[column]
     return index_at_beginning_of_row + column_index
@@ -88,10 +98,17 @@ def get_column_indexes(column, board):
     return [ int(str(x) + str(y)) for x in all_x ]
 
 def solve(starting_at):
-    return get_board([starting_at])
+    board = get_board([starting_at])
+    board = put_queen(board, 'b3')
+    board = put_queen(board, 'c5')
+    board = put_queen(board, 'd7')
+    board = put_queen(board, 'e9')
+    return board 
 
 def is_queen(board, position):
     queen_index = get_queen_index(board, position)
     return board[queen_index] == QUEEN 
 
+def count_queen(board):
+    return board.count(QUEEN) 
     
