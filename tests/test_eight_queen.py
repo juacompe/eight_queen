@@ -210,7 +210,7 @@ class TestIsQueen(TestCase):
 
     def test_h1_is_not_queen(self):
         """
-        test thr right row, wrong column 
+        test the right row, wrong column 
         """
         result = is_queen(board_with_queen_at_a1, 'h1') 
         self.assertFalse(result)
