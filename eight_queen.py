@@ -18,7 +18,7 @@ def get_board(queen_positions):
         output = put_queen(output, queen_position) 
     return output 
 
-def put_queen(board, position):
+def get_queen_index(board, position):
     column_indexes = {
         'a': 2,
         'b': 4,
@@ -32,7 +32,10 @@ def put_queen(board, position):
     column, row = to_coordinate_pair(position)
     index_at_beginning_of_row = board.find(row)
     column_index = column_indexes[column]
-    queen_index = index_at_beginning_of_row + column_index
+    return index_at_beginning_of_row + column_index
+ 
+def put_queen(board, position):
+    queen_index = get_queen_index(board, position)
     board_list = list(board)
     board_list[queen_index] = QUEEN
     return "".join(board_list)
@@ -83,3 +86,12 @@ def get_column_indexes(column, board):
     y = all_y[column]
     all_x = range(1, 9) 
     return [ int(str(x) + str(y)) for x in all_x ]
+
+def solve(starting_at):
+    return get_board([starting_at])
+
+def is_queen(board, position):
+    queen_index = get_queen_index(board, position)
+    return board[queen_index] == QUEEN 
+
+    

@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from eight_queen import get_board, put_queen, validate_board, get_column, get_column_indexes
+from eight_queen import get_board, put_queen, validate_board, get_column, get_column_indexes, solve, is_queen
 from unittest import TestCase
 
 empty_board = u"""
@@ -13,31 +13,32 @@ empty_board = u"""
 2 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
 1 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
 """
+
+board_with_queen_at_a1 = u"""
+  a b c d e f g h
+8 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+7 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+6 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+5 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+4 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+3 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+2 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+1 ♛ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+"""
 class TestDisplay(TestCase):
     def test_get_empty_board(self):
-        board = [] 
-        result = get_board(board) 
+        queen_positions = [] 
+        result = get_board(queen_positions) 
         assertLikes(self, empty_board, result)
 
     def test_get_board_with_a_queen_at_a1(self):
-        board = ['a1'] 
-        result = get_board(board)
-        expected = u"""
-          a b c d e f g h
-        8 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
-        7 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
-        6 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
-        5 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
-        4 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
-        3 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
-        2 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
-        1 ♛ ◻ ◼ ◻ ◼ ◻ ◼ ◻
-        """
-        assertLikes(self, expected, result)
+        queen_positions = ['a1'] 
+        result = get_board(queen_positions)
+        assertLikes(self, board_with_queen_at_a1, result)
 
     def test_get_board_with_3_queens_at_a1_b3_and_c5(self):
-        board = ['a1', 'b3', 'c5'] 
-        result = get_board(board)
+        queen_positions = ['a1', 'b3', 'c5'] 
+        result = get_board(queen_positions)
         expected = u"""
           a b c d e f g h
         8 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
@@ -55,18 +56,7 @@ class TestDisplay(TestCase):
 class TestPutQueen(TestCase):
     def test_put_queen_at_a1(self):
         result = put_queen(empty_board, 'a1')
-        expected = u"""
-          a b c d e f g h
-        8 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
-        7 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
-        6 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
-        5 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
-        4 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
-        3 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
-        2 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
-        1 ♛ ◻ ◼ ◻ ◼ ◻ ◼ ◻
-        """
-        assertLikes(self, expected, result)
+        assertLikes(self, board_with_queen_at_a1, result)
 
 class TestValidateBoard(TestCase):
     def test_empty_board_should_valid(self):
@@ -186,6 +176,37 @@ class TestGetColumnIndexes(TestCase):
         expected_indexes = [18, 28, 38, 48, 58, 68, 78, 88]
         self.assertEquals(expected_indexes, result)
   
+
+class TestSolvePuzzle(TestCase):
+    def test_solve_puzzle_starting_at_a1(self):
+        starting_point = 'a1'
+        board = solve(starting_point) 
+        self.assertTrue(is_queen(board, 'a1'))
+        self.assertTrue(validate_board(board))
+
+class TestIsQueen(TestCase):
+    def test_a1_is_queen(self):
+        """
+        test the right column, the right row
+        """
+        result = is_queen(board_with_queen_at_a1, 'a1') 
+        self.assertTrue(result)
+
+    def test_a8_is_not_queen(self):
+        """
+        test the right column, wrong row
+        """
+        result = is_queen(board_with_queen_at_a1, 'a8') 
+        self.assertFalse(result)
+
+    def test_h1_is_not_queen(self):
+        """
+        test thr right row, wrong column 
+        """
+        result = is_queen(board_with_queen_at_a1, 'h1') 
+        self.assertFalse(result)
+
+
 def assertLikes(test, expected, result):
     """
     Assert that 2 strings are equal if the whitespace is ignored
