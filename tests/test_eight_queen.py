@@ -220,6 +220,12 @@ class TestCountQueen(TestCase):
         number_of_queens = count_queen(empty_board)
         self.assertEquals(0, number_of_queens)
 
+    def test_count_queen_on_board_with_queen_at_a1(self):
+        number_of_queens = count_queen(board_with_queen_at_a1)
+        self.assertEquals(1, number_of_queens)
+
+
+
 def assertLikes(test, expected, result):
     """
     Assert that 2 strings are equal if the whitespace is ignored
