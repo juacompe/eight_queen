@@ -14,6 +14,12 @@ START       a position on the board to start (i.e. a1, h8)
     3 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
     2 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
     1 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+
+Credits:
+- Main script by Guido van van Rossum 
+  http://www.artima.com/weblogs/viewpost.jsp?thread=4829
+
+Source: https://github.com/juacompe/eight_queen
 """
 import sys
 import getopt
