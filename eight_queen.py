@@ -98,7 +98,7 @@ def get_column_indexes(column, board):
     all_x = range(1, 9) 
     return [ int(str(x) + str(y)) for x in all_x ]
 
-def solve(starting_at):
+def solve_puzzle(starting_at):
     board = get_board([starting_at])
     board = safely_put_one_more_queen(board)
     board = safely_put_one_more_queen(board)

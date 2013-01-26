@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from eight_queen import get_board, put_queen, validate_board, get_column, get_column_indexes, solve, is_queen, count_queen, OutOfBoardException, safely_put_one_more_queen, CannotPutMoreQueenException
+from eight_queen import get_board, put_queen, validate_board, get_column, get_column_indexes, solve_puzzle, is_queen, count_queen, OutOfBoardException, safely_put_one_more_queen, CannotPutMoreQueenException
 from unittest import TestCase
 
 empty_board = u"""
@@ -187,35 +187,35 @@ class TestGetColumnIndexes(TestCase):
 class TestSolvePuzzle(TestCase):
     def test_solve_puzzle_starting_at_bottom_left_corner(self):
         starting_point = 'a1'
-        board = solve(starting_point) 
+        board = solve_puzzle(starting_point) 
         self.assertTrue(is_queen(board, 'a1'))
         self.assertTrue(validate_board(board))
         self.assertEquals(8, count_queen(board))
 
     def test_solve_puzzle_starting_at_bottom_right_corner(self):
         starting_point = 'h1'
-        board = solve(starting_point) 
+        board = solve_puzzle(starting_point) 
         self.assertTrue(is_queen(board, 'h1'))
         self.assertTrue(validate_board(board))
         self.assertEquals(8, count_queen(board))
 
     def test_solve_puzzle_starting_at_top_right_corner(self):
         starting_point = 'h8'
-        board = solve(starting_point) 
+        board = solve_puzzle(starting_point) 
         self.assertTrue(is_queen(board, 'h8'))
         self.assertTrue(validate_board(board))
         self.assertEquals(8, count_queen(board))
 
     def test_solve_puzzle_starting_at_top_left_corner(self):
         starting_point = 'a8'
-        board = solve(starting_point) 
+        board = solve_puzzle(starting_point) 
         self.assertTrue(is_queen(board, 'a8'))
         self.assertTrue(validate_board(board))
         self.assertEquals(8, count_queen(board))
 
     def test_solve_puzzle_starting_at_middle_of_the_board(self):
         starting_point = 'd5'
-        board = solve(starting_point) 
+        board = solve_puzzle(starting_point) 
         self.assertTrue(is_queen(board, 'd5'))
         self.assertTrue(validate_board(board))
         self.assertEquals(8, count_queen(board))
