@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from eight_queen import get_board, put_queen, validate_board, get_column, get_column_indexes, solve, is_queen, count_queen, OutOfBoardException
+from eight_queen import get_board, put_queen, validate_board, get_column, get_column_indexes, solve, is_queen, count_queen, OutOfBoardException, safely_put_one_more_queen, CannotPutMoreQueenException
 from unittest import TestCase
 
 empty_board = u"""
@@ -191,6 +191,65 @@ class TestSolvePuzzle(TestCase):
         self.assertTrue(is_queen(board, 'a1'))
         self.assertTrue(validate_board(board))
         self.assertEquals(8, count_queen(board))
+
+    def test_solve_puzzle_starting_at_bottom_right_corner(self):
+        starting_point = 'h1'
+        board = solve(starting_point) 
+        self.assertTrue(is_queen(board, 'h1'))
+        self.assertTrue(validate_board(board))
+        self.assertEquals(8, count_queen(board))
+
+    def test_solve_puzzle_starting_at_top_right_corner(self):
+        starting_point = 'h8'
+        board = solve(starting_point) 
+        self.assertTrue(is_queen(board, 'h8'))
+        self.assertTrue(validate_board(board))
+        self.assertEquals(8, count_queen(board))
+
+    def test_solve_puzzle_starting_at_top_left_corner(self):
+        starting_point = 'a8'
+        board = solve(starting_point) 
+        self.assertTrue(is_queen(board, 'a8'))
+        self.assertTrue(validate_board(board))
+        self.assertEquals(8, count_queen(board))
+
+    def test_solve_puzzle_starting_at_middle_of_the_board(self):
+        starting_point = 'd5'
+        board = solve(starting_point) 
+        self.assertTrue(is_queen(board, 'd5'))
+        self.assertTrue(validate_board(board))
+        self.assertEquals(8, count_queen(board))
+
+
+class TestSafelyPutOneMoreQueen(TestCase):
+    """
+    Safely put one more queen put a queen on a given board
+    without let any queen kill each other
+    """
+    def test_safely_put_one_more_queen_on_empty_board(self):
+        board = get_board([]) 
+        board = safely_put_one_more_queen(board)
+        self.assertEquals(1, count_queen(board))
+        self.assertTrue(validate_board(board))
+
+    def test_safely_put_one_more_queen_on_a_board_with_queen_at_a1(self):
+        board = safely_put_one_more_queen(board_with_queen_at_a1)
+        self.assertEquals(2, count_queen(board))
+        self.assertTrue(validate_board(board))
+
+    def test_safely_put_one_more_queen_on_a_board_with_queen_at_a1_and_b3(self):
+        board_with_queen_at_a1_and_b3 = put_queen(board_with_queen_at_a1, 'b3')
+        board = safely_put_one_more_queen(board_with_queen_at_a1_and_b3)
+        self.assertEquals(3, count_queen(board))
+        self.assertTrue(validate_board(board))
+
+    def test_cannot_safely_put_one_more_queen_on_a_full_board(self):
+        """
+        Full board is a board that already has 8 queens
+        """
+        eight_queens = ['a1', 'b3', 'c5', 'd7', 'e2', 'f4', 'g6', 'h8']
+        full_board = get_board(eight_queens)
+        self.assertRaises(CannotPutMoreQueenException, safely_put_one_more_queen, full_board)
 
 
 class TestIsQueen(TestCase):

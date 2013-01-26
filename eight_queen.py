@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 class OutOfBoardException(Exception): pass
+class CannotPutMoreQueenException(Exception): pass
 
 QUEEN = u'♛'
 
@@ -99,11 +100,33 @@ def get_column_indexes(column, board):
 
 def solve(starting_at):
     board = get_board([starting_at])
-    board = put_queen(board, 'b3')
-    board = put_queen(board, 'c5')
-    board = put_queen(board, 'd7')
-    board = put_queen(board, 'e9')
+    board = safely_put_one_more_queen(board)
+    board = safely_put_one_more_queen(board)
+    board = safely_put_one_more_queen(board)
+    board = safely_put_one_more_queen(board)
+    board = safely_put_one_more_queen(board)
+    board = safely_put_one_more_queen(board)
+    board = safely_put_one_more_queen(board)
     return board 
+
+def safely_put_one_more_queen(board):
+    all_positions = [
+        'a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8',
+        'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8',
+        'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8',
+        'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8',
+        'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8',
+        'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',
+        'g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7', 'g8',
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8',
+    ]
+    for position in all_positions:
+        result_board = put_queen(board, position)
+        board_is_still_valid = validate_board(result_board) 
+        more_queen_was_added = count_queen(result_board) > count_queen(board)
+        if board_is_still_valid and more_queen_was_added:
+            return result_board
+    raise CannotPutMoreQueenException('Not expected here')
 
 def is_queen(board, position):
     queen_index = get_queen_index(board, position)
