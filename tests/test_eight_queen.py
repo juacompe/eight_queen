@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
-from eight_queen import get_board, put_queen, solve_puzzle, is_queen, count_queen, OutOfBoardException, safely_put_one_more_queen, CannotPutMoreQueenException
+from eight_queen import get_board, put_queen, solve_puzzle, count_queen, safely_put_one_more_queen, CannotPutMoreQueenException
+from utils import is_queen, OutOfBoardException
 from validate_board import validate_board
 from test_fixture import empty_board, board_with_queen_at_a1
 from unittest import TestCase
