@@ -1,0 +1,45 @@
+#!/usr/bin/python
+#-*- coding: utf-8 -*-
+u"""Usage: python puzzle.py START
+
+START       a position on the board to start (i.e. a1, h8)
+            starting point could be any position in the given board below
+
+      a b c d e f g h
+    8 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+    7 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+    6 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+    5 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+    4 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+    3 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+    2 ◻ ◼ ◻ ◼ ◻ ◼ ◻ ◼
+    1 ◼ ◻ ◼ ◻ ◼ ◻ ◼ ◻
+"""
+import sys
+import getopt
+from eight_queen import solve_puzzle
+
+def process(starting_point):
+    print solve_puzzle(starting_point)
+
+def main():
+    # parse command line options
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
+    except getopt.error, msg:
+        print msg
+        print "for help use --help"
+        sys.exit(2)
+    # process options
+    for o, a in opts:
+        if o in ("-h", "--help"):
+            print __doc__
+            sys.exit(0)
+    if len(args) != 1:
+        print __doc__
+        sys.exit(2)
+    process(args[0])
+
+if __name__ == "__main__":
+    main()
+

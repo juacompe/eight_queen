@@ -9,3 +9,7 @@ Run Test
 ========
     ./runtests
 
+Run Program 
+========
+    ./puzzle
+
