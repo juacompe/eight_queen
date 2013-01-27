@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from validate_board import validate_board
+from validate_board import validate_board, get_diagonal_positions
 from utils import to_coordinate_pair, all_positions, QUEEN, get_queen_index
 
 class CannotPutMoreQueenException(Exception): pass
@@ -37,18 +37,25 @@ def solve_puzzle(starting_at):
     board = safely_put_one_more_queen(board)
     return board 
 
-def safely_put_one_more_queen(board):
-    for position in all_positions:
+def safely_put_one_more_queen(board, positions=None):
+    positions = positions or all_positions
+    min_used = 64
+    best_position = None
+    for position in positions:
         result_board = put_queen(board, position)
         board_is_still_valid = validate_board(result_board) 
         more_queen_was_added = count_queen(result_board) > count_queen(board)
-        print '>> %s (valid: %s, added: %s)' % (position, board_is_still_valid, more_queen_was_added)
-        if position == 'e5':
-            print board
         if board_is_still_valid and more_queen_was_added:
-            print '(%s)' % position
-            return result_board
-    raise CannotPutMoreQueenException('Not expected here')
+            diagonal_positions = get_diagonal_positions(position)
+            used = len(diagonal_positions)
+            if used < min_used:
+                min_used = used
+                best_position = position
+                best_result = result_board
+    if best_position == None:
+        raise CannotPutMoreQueenException('Not expected here')
+    print '%s (%s)' % (best_position, min_used)
+    return best_result
 
 def count_queen(board):
     return board.count(QUEEN) 

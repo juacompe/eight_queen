@@ -105,6 +105,22 @@ class TestSafelyPutOneMoreQueen(TestCase):
         self.assertEquals(3, count_queen(board))
         self.assertTrue(validate_board(board))
 
+    def test_safely_put_one_more_queen_on_a_board_with_knight_pattern_starting_from_a1(self):
+        board = get_board(['a1', 'b3', 'c5', 'd7'])
+        column_e = ['e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8']
+        board = safely_put_one_more_queen(board, column_e)
+        self.assertEquals(5, count_queen(board))
+        self.assertTrue(validate_board(board))
+        self.assertTrue(is_queen(board, 'e2'))
+
+    def test_safely_put_one_more_queen_on_a_board_with_knight_pattern_starting_from_h8(self):
+        board = get_board(['h8', 'g6', 'f4', 'e2'])
+        column_d = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8']
+        board = safely_put_one_more_queen(board, column_d)
+        self.assertEquals(5, count_queen(board))
+        self.assertTrue(validate_board(board))
+        self.assertTrue(is_queen(board, 'd7'))
+
     def test_cannot_safely_put_one_more_queen_on_a_full_board(self):
         """
         Full board is a board that already has 8 queens
