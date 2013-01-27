@@ -90,25 +90,25 @@ class TestSafelyPutOneMoreQueen(TestCase):
     """
     def test_safely_put_one_more_queen_on_empty_board(self):
         board = get_board([]) 
-        board = safely_put_one_more_queen(board)
+        board, queen_position = safely_put_one_more_queen(board)
         self.assertEquals(1, count_queen(board))
         self.assertTrue(validate_board(board))
 
     def test_safely_put_one_more_queen_on_a_board_with_queen_at_a1(self):
-        board = safely_put_one_more_queen(board_with_queen_at_a1)
+        board, queen_position = safely_put_one_more_queen(board_with_queen_at_a1)
         self.assertEquals(2, count_queen(board))
         self.assertTrue(validate_board(board))
 
     def test_safely_put_one_more_queen_on_a_board_with_queen_at_a1_and_b3(self):
         board_with_queen_at_a1_and_b3 = put_queen(board_with_queen_at_a1, 'b3')
-        board = safely_put_one_more_queen(board_with_queen_at_a1_and_b3)
+        board, queen_position = safely_put_one_more_queen(board_with_queen_at_a1_and_b3)
         self.assertEquals(3, count_queen(board))
         self.assertTrue(validate_board(board))
 
     def test_safely_put_one_more_queen_on_a_board_with_knight_pattern_starting_from_a1(self):
         board = get_board(['a1', 'b3', 'c5', 'd7'])
         column_e = ['e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8']
-        board = safely_put_one_more_queen(board, column_e)
+        board, queen_position = safely_put_one_more_queen(board, column_e)
         self.assertEquals(5, count_queen(board))
         self.assertTrue(validate_board(board))
         self.assertTrue(is_queen(board, 'e2'))
@@ -116,7 +116,7 @@ class TestSafelyPutOneMoreQueen(TestCase):
     def test_safely_put_one_more_queen_on_a_board_with_knight_pattern_starting_from_h8(self):
         board = get_board(['h8', 'g6', 'f4', 'e2'])
         column_d = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8']
-        board = safely_put_one_more_queen(board, column_d)
+        board, queen_position = safely_put_one_more_queen(board, column_d)
         self.assertEquals(5, count_queen(board))
         self.assertTrue(validate_board(board))
         self.assertTrue(is_queen(board, 'd7'))
@@ -152,6 +152,7 @@ class TestIsQueen(TestCase):
         result = is_queen(board_with_queen_at_a1, 'h1') 
         self.assertFalse(result)
 
+
 class TestCountQueen(TestCase):
     def test_count_queen_on_empty_board(self):
         number_of_queens = count_queen(empty_board)
@@ -160,7 +161,6 @@ class TestCountQueen(TestCase):
     def test_count_queen_on_board_with_queen_at_a1(self):
         number_of_queens = count_queen(board_with_queen_at_a1)
         self.assertEquals(1, number_of_queens)
-
 
 
 def assertLikes(test, expected, result):
